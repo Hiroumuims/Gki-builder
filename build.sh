@@ -94,6 +94,7 @@ if ksu_included; then
   "Suki") install_ksu SukiSU-Ultra/SukiSU-Ultra $(if susfs_included; then echo "susfs-main"; elif ksu_manual_hook; then echo "nongki"; else echo "main"; fi) ;;
   esac
   config --enable CONFIG_KSU
+  config --disable CONFIG_KSU_MANUAL_SU
 fi
 
 # SUSFS
