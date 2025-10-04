@@ -26,7 +26,6 @@ cd $workdir
 # Set KernelSU Variant
 log "Setting KernelSU variant..."
 case "$KSU" in
-  "Next") VARIANT="KSUN" ;;
   "Suki") VARIANT="SUKISU" ;;
   "None") VARIANT="NKSU" ;;
 esac
@@ -90,7 +89,6 @@ if ksu_included; then
 
   # Install kernelsu
   case "$KSU" in
-  "Next") install_ksu pershoot/KernelSU-Next $(if susfs_included; then echo "next-susfs"; else echo "next"; fi) ;;
   "Suki") install_ksu SukiSU-Ultra/SukiSU-Ultra $(if susfs_included; then echo "susfs-main"; elif ksu_manual_hook; then echo "nongki"; else echo "main"; fi) ;;
   esac
   config --enable CONFIG_KSU
@@ -114,18 +112,11 @@ fi
 
 # KSU Manual Hooks
 if ksu_manual_hook; then
-  # Apply manual hook patch based on KSU variant
+  # Apply manual hook patch for SukiSU
   if [[ $KSU == "Suki" ]]; then
     log "Applying manual hook patch for SukiSU"
     patch -p1 < $workdir/kernel-patches/sukisu_scope_min_manual_hooks_v1.5.patch
-  else
-    log "Applying manual hook patch for KernelSU"
-    patch -p1 < $workdir/kernel-patches/kernelsu_min_scope_syscall_hooks_v1.5.patch
   fi
-
-  config --enable CONFIG_KSU_MANUAL_HOOK
-  config --disable CONFIG_KSU_KPROBES_HOOK
-  config --disable CONFIG_KSU_SUSFS_SUS_SU # Conflicts with manual hook
 fi
 
 # Enable KPM Supports for SukiSU
@@ -142,11 +133,11 @@ log "🧹 Finalizing build configuration with branding..."
 RELEASE_TAG="${GITHUB_REF_NAME:-HSKY4}"
 
 # This sets the string that is appended to the base kernel version for `uname -r`
-# It will result in an output like: 5.10.243-SuiKernel-HSKY4-KSUN+SuSFS
+# It will result in an output like: 5.10.243-SuiKernel-HSKY4-SUKISU+SuSFS
 INTERNAL_BRAND="-${KERNEL_NAME}-${RELEASE_TAG}-${VARIANT}"
 
 # This defines the user-facing name for the zip file and installer string
-# It will result in a string like: SuiKernel-HSKY4-5.10.243-KSUN+SuSFS
+# It will result in a string like: SuiKernel-HSKY4-5.10.243-SUKISU+SuSFS
 export KERNEL_RELEASE_NAME="${KERNEL_NAME}-${RELEASE_TAG}-${LINUX_VERSION}-${VARIANT}"
 
 
@@ -341,7 +332,6 @@ if [[ $LAST_BUILD == "true" && $STATUS != "BETA" ]]; then
   (
     echo "LINUX_VERSION=$LINUX_VERSION"
     echo "SUSFS_VERSION=$(curl -s https://gitlab.com/simonpunk/susfs4ksu/raw/gki-android12-5.10/kernel_patches/include/linux/susfs.h | grep -E '^#define SUSFS_VERSION' | cut -d' ' -f3 | sed 's/"//g')"
-    echo "KSU_NEXT_VERSION=$(gh api repos/KernelSU-Next/KernelSU-Next/tags --jq '.[0].name')"
     echo "SUKISU_VERSION=$(gh api repos/SukiSU-Ultra/SukiSU-Ultra/tags --jq '.[0].name')"
     echo "KERNEL_NAME=$KERNEL_NAME"
     echo "RELEASE_REPO=$(simplify_gh_url "$GKI_RELEASES_REPO")"
