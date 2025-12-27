@@ -89,7 +89,8 @@ config --disable CONFIG_KSU_MANUAL_SU
 
 # SUSFS (Always Applied)
 log "Applying kernel-side susfs patches"
-git clone --depth=1 -q -b gki-android12-5.10 https://gitlab.com/simonpunk/susfs4ksu $workdir/susfs
+# UPDATED: Changed branch to specific tag 1.4.2-gki-android12-5.10
+git clone --depth=1 -q -b 1.4.2-gki-android12-5.10 https://gitlab.com/simonpunk/susfs4ksu $workdir/susfs
 SUSFS_PATCHES=$workdir/susfs/kernel_patches
 cp -R $SUSFS_PATCHES/fs/* ./fs
 cp -R $SUSFS_PATCHES/include/* ./include
@@ -263,7 +264,8 @@ fi
 if [[ $LAST_BUILD == "true" && $STATUS != "BETA" ]]; then
   (
     echo "LINUX_VERSION=$LINUX_VERSION"
-    echo "SUSFS_VERSION=$(curl -s https://gitlab.com/simonpunk/susfs4ksu/raw/gki-android12-5.10/kernel_patches/include/linux/susfs.h | grep -E '^#define SUSFS_VERSION' | cut -d' ' -f3 | sed 's/"//g')"
+    # UPDATED: Changed URL to use raw/1.4.2-gki-android12-5.10 for version info
+    echo "SUSFS_VERSION=$(curl -s https://gitlab.com/simonpunk/susfs4ksu/raw/1.4.2-gki-android12-5.10/kernel_patches/include/linux/susfs.h | grep -E '^#define SUSFS_VERSION' | cut -d' ' -f3 | sed 's/"//g')"
     echo "KSU_NEXT_VERSION=$(gh api repos/KernelSU-Next/KernelSU-Next/tags --jq '.[0].name')"
     echo "KERNEL_NAME=$KERNEL_NAME"
     echo "RELEASE_REPO=$(simplify_gh_url "$GKI_RELEASES_REPO")"
