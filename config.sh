@@ -5,7 +5,7 @@ KERNEL_NAME="ShadowKernel"
 # Kernel Build variables
 USER="Hiroumuims"
 HOST="LostEchoes"
-TIMEZONE="Asia/Jakarta"
+TIMEZONE="Asia/Manila"
 # AnyKernel
 ANYKERNEL_REPO="https://github.com/LoggingNewMemory/SuiKernel-anykernel"
 ANYKERNEL_BRANCH="gki"
