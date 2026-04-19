@@ -83,8 +83,8 @@ jobs:
       - name: Install Dependencies
         run: |
           export MAN_DISABLE=true
-          sudo pacman -Sy -y
-          sudo pacman -S -y bc cpio flex bison aptitude gh git python3 \
+          sudo apt update -y
+          sudo apt install -y bc cpio flex bison aptitude gh git python3 \
                               tar perl wget curl lz4 zstd libarchive-tools aria2 jq
           sudo aptitude install -y libssl-dev
           python3 -m venv myenv
