@@ -10,8 +10,8 @@ TIMEZONE="Asia/Manila"
 ANYKERNEL_REPO="https://github.com/LoggingNewMemory/SuiKernel-anykernel"
 ANYKERNEL_BRANCH="gki"
 # Kernel Source
-KERNEL_REPO="https://github.com/MillenniumOSS/android_kernel_common_android12-5.10"
-KERNEL_BRANCH="mahiru-26-snowdrop-halium"
+KERNEL_REPO="https://github.com/MillenniumOSS/android_kernel_common_android12-5.10.git"
+KERNEL_BRANCH="millennium-base"
 KERNEL_DEFCONFIG="gki_defconfig"
 # Release repository
 GKI_RELEASES_REPO="https://github.com/Hiroumuims/LostEchoes-Releases"
